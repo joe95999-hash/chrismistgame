@@ -1,57 +1,441 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>系籃聖誕大戰｜遊戲規則</title>
-    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-      :root {
-        --christmas-red: #D42426;
-        --christmas-green: #165B33;
-        --snow-white: #F8F9FA;
-        --gold: #FFD700;
-        --ball-orange: #FF6B00;
-      }
-      
-      body {
-        background-color: var(--christmas-green);
-        margin: 0;
-        padding: 0;
-        min-height: 100vh;
-        background-image: 
-            radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.1) 2px, transparent 2px),
-            radial-gradient(circle at 80% 40%, rgba(255, 255, 255, 0.1) 3px, transparent 3px);
-        background-size: 300px 300px;
-        animation: snow 10s linear infinite;
-        font-family: 'Microsoft JhengHei', sans-serif;
-      }
+        :root {
+            --christmas-red: #D42426;
+            --christmas-green: #165B33;
+            --snow-white: #F8F9FA;
+            --gold: #FFD700;
+            --court-color: #E6B685;
+            --ball-orange: #FF6B00;
+        }
 
-      @keyframes snow {
-          0% { background-position: 0 0, 0 0; }
-          100% { background-position: 0 300px, 0 400px; }
-      }
+        body {
+            font-family: 'Microsoft JhengHei', sans-serif;
+            background-color: var(--christmas-green);
+            color: #333;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.1) 2px, transparent 2px),
+                radial-gradient(circle at 80% 40%, rgba(255, 255, 255, 0.1) 3px, transparent 3px);
+            background-size: 300px 300px;
+            animation: snow 10s linear infinite;
+        }
 
-      /* Hide scrollbar for tabs */
-      .no-scrollbar::-webkit-scrollbar {
-          display: none;
-      }
-      .no-scrollbar {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
-      }
+        @keyframes snow {
+            0% { background-position: 0 0, 0 0; }
+            100% { background-position: 0 300px, 0 400px; }
+        }
+
+        .container {
+            width: 90%;
+            max-width: 600px;
+            background: var(--snow-white);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            overflow: hidden;
+            position: relative;
+            border: 5px solid var(--christmas-red);
+        }
+
+        /* Header Decor */
+        .header {
+            background: var(--christmas-red);
+            color: var(--gold);
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            border-bottom: 5px dashed var(--snow-white);
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 1.8rem;
+            text-shadow: 2px 2px 0px #000;
+        }
+
+        .santa-hat-icon {
+            position: absolute;
+            top: -15px;
+            left: 10px;
+            width: 60px;
+            height: 60px;
+            transform: rotate(-15deg);
+        }
+
+        /* Navigation */
+        .nav-tabs {
+            display: flex;
+            background: #eee;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+        .nav-tabs::-webkit-scrollbar { display: none; }
+
+        .tab {
+            flex: 1;
+            padding: 15px 10px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: bold;
+            color: var(--christmas-green);
+            transition: 0.3s;
+            white-space: nowrap;
+            border-bottom: 3px solid transparent;
+            font-size: 0.9rem;
+        }
+
+        .tab.active {
+            background: var(--snow-white);
+            color: var(--christmas-red);
+            border-bottom: 3px solid var(--christmas-red);
+        }
+
+        /* Content Area */
+        .content-area {
+            padding: 20px;
+            min-height: 400px;
+            position: relative;
+        }
+
+        .rule-card {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .rule-card.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            color: var(--christmas-green);
+            border-left: 5px solid var(--christmas-red);
+            padding-left: 10px;
+            margin-top: 0;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        ul, ol {
+            padding-left: 20px;
+            line-height: 1.6;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        .highlight {
+            background: rgba(255, 215, 0, 0.2);
+            padding: 2px 5px;
+            border-radius: 4px;
+            font-weight: bold;
+            color: var(--christmas-red);
+        }
+
+        .note {
+            font-size: 0.9rem;
+            color: #666;
+            font-style: italic;
+            background: #f0f0f0;
+            padding: 10px;
+            border-radius: 8px;
+            border-left: 3px solid #999;
+        }
+
+        /* Visual Elements for Rules */
+        .illustration {
+            text-align: center;
+            margin: 15px 0;
+            padding: 10px;
+            background: rgba(22, 91, 51, 0.05);
+            border-radius: 10px;
+        }
+
+        .score-board {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+        }
+
+        .score-box {
+            text-align: center;
+            width: 45%;
+            padding: 10px;
+            border: 2px solid;
+            border-radius: 10px;
+        }
+
+        .normal-score { border-color: #666; background: #eee; }
+        .santa-score { border-color: var(--christmas-red); background: #FFF0F0; }
+
+        .score-title { font-weight: bold; display: block; margin-bottom: 5px; }
+        .score-val { font-size: 1.2rem; }
+
+        /* SVG Icons */
+        svg {
+            width: 40px;
+            height: 40px;
+            vertical-align: middle;
+        }
+
+        /* Footer Controls */
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 20px;
+            background: #eee;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .btn-prev { background: #ccc; color: #333; }
+        .btn-next { background: var(--christmas-green); color: white; }
+        .btn:hover { opacity: 0.9; transform: scale(1.05); }
+
     </style>
-  <script type="importmap">
-{
-  "imports": {
-    "react": "https://esm.sh/react@^19.2.3",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-    "react/": "https://esm.sh/react@^19.2.3/"
-  }
-}
-</script>
 </head>
-  <body>
-    <div id="root"></div>
-  </body>
+<body>
+
+    <div class="container">
+        <svg style="display: none;">
+            <defs>
+                <g id="icon-ball">
+                    <circle cx="20" cy="20" r="18" fill="var(--ball-orange)" stroke="#333" stroke-width="2"/>
+                    <path d="M2,20 Q20,20 38,20 M20,2 Q20,20 20,38 M6,10 Q20,20 34,10 M6,30 Q20,20 34,30" stroke="#333" stroke-width="2" fill="none"/>
+                </g>
+                <g id="icon-hat">
+                    <path d="M5,35 L35,35 L20,5 Z" fill="var(--christmas-red)"/>
+                    <circle cx="20" cy="5" r="5" fill="white"/>
+                    <rect x="5" y="32" width="30" height="6" fill="white" rx="3"/>
+                </g>
+                <g id="icon-trophy">
+                    <path d="M10,10 L30,10 L25,30 L15,30 Z" fill="var(--gold)" stroke="#B8860B" stroke-width="2"/>
+                    <circle cx="20" cy="10" r="15" fill="none" stroke="var(--gold)" stroke-width="2"/>
+                    <rect x="15" y="30" width="10" height="5" fill="#333"/>
+                </g>
+            </defs>
+        </svg>
+
+        <div class="header">
+            <svg class="santa-hat-icon" viewBox="0 0 40 40">
+                <use href="#icon-hat"></use>
+            </svg>
+            <h1>🎄 系籃聖誕大戰 🏀</h1>
+            <div style="font-size: 0.8rem; opacity: 0.8;">Interactive Rulebook</div>
+        </div>
+
+        <div class="nav-tabs" id="navTabs">
+            <div class="tab active" onclick="switchTab(0)">隊伍</div>
+            <div class="tab" onclick="switchTab(1)">賽制</div>
+            <div class="tab" onclick="switchTab(2)">得分</div>
+            <div class="tab" onclick="switchTab(3)">帽數分配</div>
+            <div class="tab" onclick="switchTab(4)">帽子加成</div>
+            <div class="tab" onclick="switchTab(5)">結算</div>
+        </div>
+
+        <div class="content-area">
+            
+            <div class="rule-card active">
+                <h2>
+                    <svg viewBox="0 0 40 40"><use href="#icon-ball"></use></svg>
+                    一、隊伍編制
+                </h2>
+                <div class="illustration">
+                    <div style="display: flex; justify-content: center; gap: 20px; font-size: 3rem;">
+                        <span>🟥</span><span>🟩</span><span>🟦</span>
+                    </div>
+                    <p style="margin-top:5px; font-size:0.8rem; color:#555;">北隊 / 中隊 / 南隊</p>
+                </div>
+                <ul>
+                    <li>本次活動分為三隊：<strong>北隊／中隊／南隊</strong>。</li>
+                    <li>分隊依「家鄉（籍貫/主要成長地）」判定。</li>
+                    <li>若某隊人數不足或分配失衡，由老師進行調整，以維持比賽公平與可執行性。</li>
+                </ul>
+            </div>
+
+            <div class="rule-card">
+                <h2>
+                    <svg viewBox="0 0 40 40"><rect x="5" y="5" width="30" height="30" fill="none" stroke="black" stroke-width="2"/><line x1="5" y1="12" x2="35" y2="12" stroke="black"/><line x1="12" y1="12" x2="12" y2="35" stroke="black"/></svg>
+                    二、賽制與場次
+                </h2>
+                <ul>
+                    <li>本次共計 <strong>6 場</strong>。</li>
+                    <li>每隊共出賽 <strong>4 場</strong>。</li>
+                    <li>任兩隊彼此對戰 2 次（同一對手打兩次）。</li>
+                </ul>
+                <div class="note">
+                    場次安排與先攻/先發等細節，以當日管理者與紀錄台公告為準。
+                </div>
+            </div>
+
+            <div class="rule-card">
+                <h2>
+                    <svg viewBox="0 0 40 40"><use href="#icon-ball"></use></svg>
+                    三、得分規格
+                </h2>
+                <p>本次採用「<strong>聖誕大戰計分制</strong>」，與一般籃球規則不同，請注意！</p>
+                
+                <div class="score-board">
+                    <div class="score-box normal-score">
+                        <span class="score-title">特殊計分</span>
+                        <div style="text-align: left; padding-left: 10px;">
+                            <p>三分球：<b style="color:red">2分</b></p>
+                            <p>兩分球：<b style="color:red">1分</b></p>
+                            <p>罰球：僅1次機會<br>(進算1分)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="note">
+                    ※若觸發「聖誕帽加成」（見第五條），則依加成規則改回一般籃球得分與兩罰。
+                </div>
+            </div>
+
+            <div class="rule-card">
+                <h2>
+                    <svg viewBox="0 0 40 40"><use href="#icon-hat"></use></svg>
+                    四、聖誕帽配置
+                </h2>
+                <p>帽子分配採<strong>回合制</strong>：</p>
+                
+                <h3>(A) 第一輪：固定一頂／隊</h3>
+                <ul>
+                    <li>第一輪開始時，每隊各有 1 頂聖誕帽。</li>
+                    <li>由抽籤決定該隊本輪由誰配戴。</li>
+                </ul>
+
+                <hr style="border: 1px dashed #ccc;">
+
+                <h3>(B) 第二輪起：依戰績分配</h3>
+                <ul>
+                    <li><strong>戰績最差：</strong>3 頂帽子 (抽籤配戴)</li>
+                    <li><strong>戰績中間：</strong>2 頂帽子 (抽籤配戴)</li>
+                    <li><strong>戰績第一：</strong>維持 1 頂帽子</li>
+                </ul>
+
+                <h3>(C) 戰績平手處理</h3>
+                <ul>
+                    <li>戰績持平：以「上一場勝負」決定，敗者帽子多。</li>
+                    <li>完全平手：兩隊各分配 2 頂聖誕帽（公平分配）。</li>
+                </ul>
+            </div>
+
+            <div class="rule-card">
+                <h2>
+                    <svg viewBox="0 0 40 40"><use href="#icon-hat"></use></svg>
+                    五、聖誕帽加成
+                </h2>
+                <div class="illustration" style="background: #FFF0F0; border: 1px solid var(--christmas-red);">
+                    <strong>🎅 聖誕老人效果 (幸運Buff)</strong>
+                </div>
+                
+                <h3>(A) 加成內容</h3>
+                <p>配戴者視為「聖誕老人」，得分<strong>改採一般籃球規則</strong>：</p>
+                <ul>
+                    <li>三分球：<span class="highlight">3 分</span></li>
+                    <li>兩分球：<span class="highlight">2 分</span></li>
+                    <li>罰球：改為兩球（2 罰制度）</li>
+                </ul>
+                <div class="note">※未配戴者仍依本賽事特殊計分制（3分算2分、2分算1分...）。</div>
+
+                <h3>(B) 佩戴義務 (違規規則)</h3>
+                <p><strong>「聖誕老人不能沒有帽子」</strong></p>
+                <ul>
+                    <li>比賽中必須全程戴好。</li>
+                    <li>若掉落或取下，視為<strong>違規</strong>。</li>
+                    <li><strong>處置：</strong>立即暫停要求恢復。若刻意或多次，追加球權判給對方或依裁定處理。</li>
+                </ul>
+                <p style="font-size:0.9rem; color:var(--christmas-red); text-align:center;">
+                    "帽子掉了可以立刻撿起戴回，但不得藉此拖延或影響攻防。"
+                </p>
+            </div>
+
+            <div class="rule-card">
+                <h2>
+                    <svg viewBox="0 0 40 40"><use href="#icon-trophy"></use></svg>
+                    六、結算與最終勝負
+                </h2>
+                <ul>
+                    <li>以各隊總勝場（或公告的戰績計算方式）決定名次。</li>
+                    <li>若三隊戰績完全一致：進行 <strong>罰球大賽</strong> 決定最終勝負。</li>
+                </ul>
+                <div class="note">
+                    罰球大賽規則細節由當日管理者公告，原則上以「可快速決勝」為準。
+                </div>
+                
+                <div style="text-align: center; margin-top: 30px;">
+                    <button style="padding: 10px 20px; background: var(--gold); border: none; border-radius: 5px; font-weight: bold; cursor: pointer;" onclick="alert('🎄 Merry Christmas & Happy Basketball! 🏀')">準備好開戰了嗎？</button>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="controls">
+            <button class="btn btn-prev" onclick="changeSlide(-1)">❮ 上一條</button>
+            <button class="btn btn-next" onclick="changeSlide(1)">下一條 ❯</button>
+        </div>
+    </div>
+
+    <script>
+        let currentTab = 0;
+        const tabs = document.querySelectorAll('.tab');
+        const cards = document.querySelectorAll('.rule-card');
+
+        function switchTab(index) {
+            // Remove active class from all
+            tabs.forEach(tab => tab.classList.remove('active'));
+            cards.forEach(card => card.classList.remove('active'));
+
+            // Add active class to current
+            tabs[index].classList.add('active');
+            cards[index].classList.add('active');
+            
+            currentTab = index;
+            updateButtons();
+        }
+
+        function changeSlide(direction) {
+            let newIndex = currentTab + direction;
+            if (newIndex >= 0 && newIndex < tabs.length) {
+                switchTab(newIndex);
+            }
+        }
+
+        function updateButtons() {
+            const prevBtn = document.querySelector('.btn-prev');
+            const nextBtn = document.querySelector('.btn-next');
+
+            prevBtn.style.visibility = currentTab === 0 ? 'hidden' : 'visible';
+            nextBtn.style.visibility = currentTab === tabs.length - 1 ? 'hidden' : 'visible';
+        }
+
+        // Initialize button state
+        updateButtons();
+    </script>
+</body>
 </html>
