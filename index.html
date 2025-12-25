@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>系籃聖誕大戰｜遊戲規則</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      :root {
+        --christmas-red: #D42426;
+        --christmas-green: #165B33;
+        --snow-white: #F8F9FA;
+        --gold: #FFD700;
+        --ball-orange: #FF6B00;
+      }
+      
+      body {
+        background-color: var(--christmas-green);
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        background-image: 
+            radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.1) 2px, transparent 2px),
+            radial-gradient(circle at 80% 40%, rgba(255, 255, 255, 0.1) 3px, transparent 3px);
+        background-size: 300px 300px;
+        animation: snow 10s linear infinite;
+        font-family: 'Microsoft JhengHei', sans-serif;
+      }
+
+      @keyframes snow {
+          0% { background-position: 0 0, 0 0; }
+          100% { background-position: 0 300px, 0 400px; }
+      }
+
+      /* Hide scrollbar for tabs */
+      .no-scrollbar::-webkit-scrollbar {
+          display: none;
+      }
+      .no-scrollbar {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.2.3",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react/": "https://esm.sh/react@^19.2.3/"
+  }
+}
+</script>
+</head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
